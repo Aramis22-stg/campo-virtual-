@@ -1,0 +1,10 @@
+[
+  { "ramo": "Iniciativa y Gestión Personal y Social", "dia": "Lunes", "hora": "18:40 - 20:50", "sala": "S-02-P2-B" },
+  { "ramo": "Taller de Habilidades TIC", "dia": "Martes", "hora": "18:40 - 20:00", "sala": "PA" },
+  { "ramo": "Taller de Habilidades Comunicativas", "dia": "Martes", "hora": "20:10 - 21:30", "sala": "PA" },
+  { "ramo": "Nivelación Matemática", "dia": "Miércoles", "hora": "18:40 - 21:30", "sala": "S-05-P4-A" },
+  { "ramo": "Estructuras de Datos y Algoritmos", "dia": "Jueves", "hora": "18:40 - 22:20", "sala": "L-03-P3-A" },
+  { "ramo": "Hardware y Conectividad de Equipos Personales", "dia": "Viernes", "hora": "18:40 - 22:20", "sala": "L-01-P03-A" },
+  { "ramo": "Estructuras de Datos y Algoritmos", "dia": "Sábado", "hora": "08:15 - 09:35", "sala": "S-06-P3-A" },
+  { "ramo": "Especificación de Requerimientos", "dia": "Sábado", "hora": "09:45 - 12:35", "sala": "S-06-P3-A" }
+]

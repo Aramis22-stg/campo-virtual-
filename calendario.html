@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Mi Instituto - Inicio</title>
+  <link rel="stylesheet" href="css/estilos.css">
+</head>
+<body>
+<header class="top-header">
+  <div class="logo">Santo Tomás</div>
+  <div class="subtitulo">Portal del Estudiante</div>
+</header>
+  <nav>
+    <ul class="menu">
+      <li><a href="index.html">🏠 Inicio</a></li>
+      <li><a href="horario.html">📅 Horario</a></li>
+      <li><a href="notas.html">🧮 Notas</a></li>
+    </ul>
+  </nav>
+
+  <h1>Calendario Académico</h1>
+  <table id="tabla-eventos" border="1">
+    <thead>
+      <tr>
+        <th>Fecha</th>
+        <th>Evento</th>
+        <th>Tipo</th>
+      </tr>
+    </thead>
+    <tbody id="cuerpo-eventos"></tbody>
+  </table>
+
+  <script src="js/calendario.js"></script>
+</body>
+</html>

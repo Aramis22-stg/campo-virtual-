@@ -1,0 +1,18 @@
+[
+  { "fecha": "2026-06-24", "evento": "Prueba de Nivelación Matemática", "tipo": "prueba" },
+  { "fecha": "2026-06-24", "evento": "Pruebas recuperativas", "tipo": "prueba" },
+  { "fecha": "2026-06-25", "evento": "Disertación Taller de Habilidades TIC", "tipo": "prueba" },
+  { "fecha": "2026-06-25", "evento": "Pruebas recuperativas", "tipo": "prueba" },
+  { "fecha": "2026-06-26", "evento": "Pruebas recuperativas", "tipo": "prueba" },
+  { "fecha": "2026-06-27", "evento": "Pruebas recuperativas", "tipo": "prueba" },
+  { "fecha": "2026-06-29", "evento": "Pruebas recuperativas", "tipo": "prueba" },
+  { "fecha": "2026-07-01", "evento": "Pruebas recuperativas", "tipo": "prueba" },
+  { "fecha": "2026-07-02", "evento": "Pruebas recuperativas", "tipo": "prueba" },
+  { "fecha": "2026-07-03", "evento": "Pruebas recuperativas", "tipo": "prueba" },
+  { "fecha": "2026-07-06", "evento": "Examen Final", "tipo": "prueba" },
+  { "fecha": "2026-07-07", "evento": "Examen Final", "tipo": "prueba" },
+  { "fecha": "2026-07-08", "evento": "Examen Final", "tipo": "prueba" },
+  { "fecha": "2026-07-09", "evento": "Examen Final", "tipo": "prueba" },
+  { "fecha": "2026-07-10", "evento": "Examen Final - Cierre del semestre", "tipo": "prueba" },
+  { "fecha": "2026-08-10", "evento": "Regreso a clases", "tipo": "vacaciones" }
+]

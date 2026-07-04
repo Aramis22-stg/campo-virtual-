@@ -1,0 +1,163 @@
+* {
+  box-sizing: border-box;
+}
+
+body {
+  font-family: 'Segoe UI', Arial, sans-serif;
+  margin: 0;
+  padding: 0;
+  background-color: #f5f6f8;
+  color: #222;
+}
+
+h1 {
+  padding: 0 20px;
+  color: #003b2f;
+}
+
+h2 {
+  padding: 0 20px;
+}
+
+/* Encabezado institucional */
+.top-header {
+  background-color: #00563f;
+  color: white;
+  padding: 25px 30px;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.logo {
+  font-family: Georgia, 'Times New Roman', serif;
+  font-size: 30px;
+  font-weight: bold;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+}
+
+.subtitulo {
+  font-size: 13px;
+  opacity: 0.8;
+  letter-spacing: 0.5px;
+}
+
+/* Menú de navegación */
+nav {
+  background-color: #003b2f;
+  padding: 14px 0;
+  margin-bottom: 25px;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.15);
+}
+
+.menu {
+  list-style: none;
+  display: flex;
+  gap: 25px;
+  margin: 0;
+  padding: 0 20px;
+}
+
+.menu a {
+  color: white;
+  text-decoration: none;
+  font-weight: bold;
+  font-size: 15px;
+  transition: opacity 0.2s;
+}
+
+.menu a:hover {
+  opacity: 0.75;
+  text-decoration: underline;
+}
+
+/* Tablas */
+table {
+  border-collapse: collapse;
+  width: calc(100% - 40px);
+  margin: 0 20px 20px 20px;
+  background-color: white;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+}
+
+th, td {
+  border: 1px solid #ddd;
+  padding: 12px;
+  text-align: left;
+}
+
+th {
+  background-color: #003b2f;
+  color: white;
+}
+
+tr:nth-child(even) {
+  background-color: #f2f2f2;
+}
+
+tr:hover {
+  background-color: #e9f5f0;
+}
+
+/* Botones */
+button {
+  background-color: #003b2f;
+  color: white;
+  border: none;
+  padding: 8px 16px;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 14px;
+  margin: 4px;
+}
+button:hover {
+  background-color: #00563f;
+}
+
+/* Inputs (para la calculadora de notas) */
+input[type="number"] {
+  padding: 6px 10px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  width: 80px;
+  margin-right: 8px;
+}
+
+/* Contenedor general de contenido */
+#lista-notas {
+  padding: 0 20px;
+}
+
+#lista-notas > div {
+  margin-bottom: 8px;
+}
+/* Diseño responsive para celulares */
+@media (max-width: 600px) {
+  .menu {
+    flex-direction: column;
+    gap: 10px;
+  }
+
+  .top-header {
+    padding: 15px 20px;
+  }
+
+  .logo {
+    font-size: 22px;
+  }
+
+  table {
+    width: calc(100% - 20px);
+    margin: 0 10px 20px 10px;
+    font-size: 13px;
+  }
+
+  th, td {
+    padding: 8px;
+  }
+
+  h1 {
+    font-size: 22px;
+  }
+}

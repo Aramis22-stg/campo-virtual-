@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Calculadora de Notas</title>
+  <link rel="stylesheet" href="css/estilos.css">
+</head>
+<body>
+  <header class="top-header">
+    <div class="logo">Santo Tomás</div>
+    <div class="subtitulo">Portal del Estudiante</div>
+  </header>
+
+  <nav>
+    <ul class="menu">
+      <li><a href="index.html">🏠 Inicio</a></li>
+      <li><a href="horario.html">📅 Horario</a></li>
+      <li><a href="calendario.html">🗓️ Calendario</a></li>
+    </ul>
+  </nav>
+
+  <h1>Calculadora de Promedio Ponderado</h1>
+  <p style="padding: 0 20px;">Ingresa cada nota junto con el porcentaje que representa (ej: prueba 1 = 30%). La suma de porcentajes debería llegar a 100%.</p>
+
+  <div id="lista-notas"></div>
+  <div style="padding: 0 20px;">
+    <button id="btn-agregar">+ Agregar nota</button>
+  </div>
+
+  <h2>Suma de porcentajes: <span id="suma-porcentajes">0</span>%</h2>
+  <h2>Promedio ponderado: <span id="resultado">0</span></h2>
+
+  <script src="js/notas.js"></script>
+</body>
+</html>
