@@ -13,12 +13,12 @@ function renderizar() {
   notas.forEach((nota, index) => {
     listaDiv.innerHTML += `
       <div>
-Nota: <input type="number" min="1" max="7" step="0.1" value="${nota.valor}" 
-       onchange="actualizarNota(${index}, 'valor', this.value)"
-       onfocus="this.select()">
-Porcentaje: <input type="number" min="0" max="100" step="1" value="${nota.porcentaje}" 
-       onchange="actualizarNota(${index}, 'porcentaje', this.value)"
-       onfocus="this.select()">%
+        Nota: <input type="number" min="1" max="7" step="0.1" value="${nota.valor}" 
+               onchange="actualizarNota(${index}, 'valor', this.value)"
+               onfocus="this.select()">
+        Porcentaje: <input type="number" min="0" max="100" step="1" value="${nota.porcentaje}" 
+               onchange="actualizarNota(${index}, 'porcentaje', this.value)"
+               onfocus="this.select()">%
         <button onclick="eliminarNota(${index})">Eliminar</button>
       </div>
     `;
@@ -69,8 +69,7 @@ function calcularNotaNecesaria(sumaPonderada, sumaPorcentajesActual) {
     return;
   }
 
-  // (sumaPonderada + notaNecesaria * porcentajeFaltante) / 100 = notaMinima
-  const notaNecesaria = (notaMinima * 100 - sumaPonderada) / porcentajeFaltante;
+ const notaNecesaria = (notaMinima * 100 - sumaPonderada) / porcentajeFaltante;
 
   if (notaNecesaria > 7) {
     resultadoNecesario.textContent = `Necesitarías un ${notaNecesaria.toFixed(2)}, lo cual no es posible (máximo es 7.0). Lamentablemente ya no podrías aprobar con esta evaluación.`;
