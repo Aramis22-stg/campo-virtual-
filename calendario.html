@@ -3,14 +3,15 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Mi Instituto - Inicio</title>
+  <title>Calendario Académico</title>
   <link rel="stylesheet" href="css/estilos.css">
 </head>
 <body>
-<header class="top-header">
-  <div class="logo">Santo Tomás</div>
-  <div class="subtitulo">Portal del Estudiante</div>
-</header>
+  <header class="top-header">
+    <div class="logo">Santo Tomás</div>
+    <div class="subtitulo">Portal del Estudiante</div>
+  </header>
+
   <nav>
     <ul class="menu">
       <li><a href="index.html">🏠 Inicio</a></li>
@@ -20,12 +21,25 @@
   </nav>
 
   <h1>Calendario Académico</h1>
+
+  <div style="padding: 0 20px; margin-bottom: 15px;">
+    <input type="date" id="input-fecha">
+    <input type="text" id="input-evento" placeholder="Nombre del evento" onfocus="this.select()">
+    <select id="input-tipo">
+      <option value="prueba">Prueba</option>
+      <option value="entrega">Entrega</option>
+      <option value="vacaciones">Vacaciones</option>
+    </select>
+    <button id="btn-agregar-evento">+ Agregar evento</button>
+  </div>
+
   <table id="tabla-eventos" border="1">
     <thead>
       <tr>
         <th>Fecha</th>
         <th>Evento</th>
         <th>Tipo</th>
+        <th>Acción</th>
       </tr>
     </thead>
     <tbody id="cuerpo-eventos"></tbody>
