@@ -13,10 +13,12 @@ function renderizar() {
   notas.forEach((nota, index) => {
     listaDiv.innerHTML += `
       <div>
-        Nota: <input type="number" min="1" max="7" step="0.1" value="${nota.valor}" 
-               onchange="actualizarNota(${index}, 'valor', this.value)">
-        Porcentaje: <input type="number" min="0" max="100" step="1" value="${nota.porcentaje}" 
-               onchange="actualizarNota(${index}, 'porcentaje', this.value)">%
+Nota: <input type="number" min="1" max="7" step="0.1" value="${nota.valor}" 
+       onchange="actualizarNota(${index}, 'valor', this.value)"
+       onfocus="this.select()">
+Porcentaje: <input type="number" min="0" max="100" step="1" value="${nota.porcentaje}" 
+       onchange="actualizarNota(${index}, 'porcentaje', this.value)"
+       onfocus="this.select()">%
         <button onclick="eliminarNota(${index})">Eliminar</button>
       </div>
     `;
