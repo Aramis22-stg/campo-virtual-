@@ -5,6 +5,9 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Calculadora de Notas</title>
   <link rel="stylesheet" href="css/estilos.css">
+  <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-auth-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-database-compat.js"></script>
 </head>
 <body>
   <header class="top-header">
@@ -17,24 +20,30 @@
       <li><a href="index.html">🏠 Inicio</a></li>
       <li><a href="horario.html">📅 Horario</a></li>
       <li><a href="calendario.html">🗓️ Calendario</a></li>
+      <li><a href="#" id="btn-logout">🚪 Cerrar sesión</a></li>
     </ul>
   </nav>
 
-  <h1>Calculadora de Promedio Ponderado</h1>
-  <p style="padding: 0 20px;">Ingresa cada nota junto con el porcentaje que representa (ej: prueba 1 = 30%). La suma de porcentajes debería llegar a 100%.</p>
+  <h1>Mis Notas por Asignatura</h1>
 
-  <div id="lista-notas"></div>
-  <div style="padding: 0 20px;">
+  <div style="padding: 0 20px; margin-bottom: 20px;">
+    <input type="text" id="input-asignatura" list="lista-asignaturas" placeholder="Asignatura (ej: Matemáticas)" onfocus="this.select()">
+    <datalist id="lista-asignaturas"></datalist>
+    <input type="number" id="input-valor" placeholder="Nota" min="1" max="7" step="0.1" onfocus="this.select()" style="width: 70px;">
+    <input type="number" id="input-porcentaje" placeholder="%" min="0" max="100" step="1" onfocus="this.select()" style="width: 70px;">
     <button id="btn-agregar">+ Agregar nota</button>
   </div>
 
-  <h2>Suma de porcentajes: <span id="suma-porcentajes">0</span>%</h2>
-  <h2>Promedio actual: <span id="resultado">0</span></h2>
+  <div id="contenedor-asignaturas"></div>
 
   <hr style="margin: 20px;">
 
   <h1>¿Qué nota necesito para aprobar?</h1>
   <div style="padding: 0 20px;">
+    <label>Asignatura:
+      <select id="select-asignatura-necesaria"></select>
+    </label>
+    <br><br>
     <label>Nota mínima para aprobar: 
       <input type="number" id="input-nota-minima" value="5.3" step="0.1" onfocus="this.select()">
     </label>
@@ -46,6 +55,8 @@
 
   <h2 style="padding: 0 20px;" id="resultado-necesario"></h2>
 
+  <script src="js/firebase-config.js"></script>
+  <script src="js/auth-guard.js"></script>
   <script src="js/notas.js"></script>
 </body>
 </html>
