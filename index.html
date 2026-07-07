@@ -5,19 +5,26 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Mi Instituto - Inicio</title>
   <link rel="stylesheet" href="css/estilos.css">
+  <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-auth-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-database-compat.js"></script>
 </head>
 <body>
   <header class="top-header">
-<div class="logo">Santo Tomás</div>
-  <div class="subtitulo">Portal del Estudiante</div>
-</header>
+    <div class="logo">Santo Tomás</div>
+    <div class="subtitulo">Portal del Estudiante</div>
+  </header>
   <h1>Mi Instituto</h1>
   <nav>
     <ul class="menu">
       <li><a href="horario.html">📅 Mi Horario</a></li>
       <li><a href="notas.html">🧮 Calculadora de Notas</a></li>
       <li><a href="calendario.html">🗓️ Calendario Académico</a></li>
+      <li><a href="#" id="btn-logout">🚪 Cerrar sesión</a></li>
     </ul>
   </nav>
+
+  <script src="js/firebase-config.js"></script>
+  <script src="js/auth-guard.js"></script>
 </body>
 </html>
