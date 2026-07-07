@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Iniciar Sesión - Portal del Estudiante</title>
+  <link rel="stylesheet" href="css/estilos.css">
+  <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-auth-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-database-compat.js"></script>
+</head>
+<body>
+  <header class="top-header">
+    <div class="logo">Santo Tomás</div>
+    <div class="subtitulo">Portal del Estudiante</div>
+  </header>
+
+  <h1>Iniciar Sesión</h1>
+
+  <div style="padding: 0 20px; max-width: 400px;">
+    <label>Correo electrónico:</label><br>
+    <input type="email" id="input-correo" style="width: 100%; padding: 8px; margin-bottom: 12px;"><br>
+
+    <label>Contraseña:</label><br>
+    <input type="password" id="input-clave" style="width: 100%; padding: 8px; margin-bottom: 12px;"><br>
+
+    <button id="btn-login">Iniciar Sesión</button>
+
+    <p id="mensaje" style="margin-top: 15px;"></p>
+
+    <p>¿No tienes cuenta? <a href="registro.html">Regístrate aquí</a></p>
+  </div>
+
+  <script src="js/firebase-config.js"></script>
+  <script src="js/login.js"></script>
+</body>
+</html>
