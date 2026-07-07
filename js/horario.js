@@ -1,18 +1,9 @@
 const ordenDias = ["Lunes", "Martes", "Miércoles", "Jueves", "Viernes", "Sábado", "Domingo"];
 
-const ramosPorDefecto = [
-  { ramo: "Iniciativa y Gestión Personal y Social", dia: "Lunes", hora: "18:40 - 20:50", sala: "S-02-P2-B" },
-  { ramo: "Taller de Habilidades TIC", dia: "Martes", hora: "18:40 - 20:00", sala: "PA" },
-  { ramo: "Taller de Habilidades Comunicativas", dia: "Martes", hora: "20:10 - 21:30", sala: "PA" },
-  { ramo: "Nivelación Matemática", dia: "Miércoles", hora: "18:40 - 21:30", sala: "S-05-P4-A" },
-  { ramo: "Estructuras de Datos y Algoritmos", dia: "Jueves", hora: "18:40 - 22:20", sala: "L-03-P3-A" },
-  { ramo: "Hardware y Conectividad de Equipos Personales", dia: "Viernes", hora: "18:40 - 22:20", sala: "L-01-P03-A" },
-  { ramo: "Estructuras de Datos y Algoritmos", dia: "Sábado", hora: "08:15 - 09:35", sala: "S-06-P3-A" },
-  { ramo: "Especificación de Requerimientos", dia: "Sábado", hora: "09:45 - 12:35", sala: "S-06-P3-A" }
-];
-
-let ramos = JSON.parse(localStorage.getItem('ramos')) || ramosPorDefecto;
+let ramos = [];
 let editandoIndex = null;
+let rutaUsuario = null;
+let terminoBusqueda = '';
 
 const cuerpo = document.getElementById('cuerpo-horario');
 const inputDia = document.getElementById('input-dia');
@@ -20,20 +11,45 @@ const inputHora = document.getElementById('input-hora');
 const inputRamo = document.getElementById('input-ramo');
 const inputSala = document.getElementById('input-sala');
 const btnAgregar = document.getElementById('btn-agregar-ramo');
+const inputBuscar = document.getElementById('input-buscar');
+const sinResultados = document.getElementById('sin-resultados');
 
-function guardarRamos() {
-  localStorage.setItem('ramos', JSON.stringify(ramos));
-}
+auth.onAuthStateChanged((user) => {
+  if (user) {
+    rutaUsuario = db.ref('usuarios/' + user.uid + '/ramos');
+    rutaUsuario.on('value', (snapshot) => {
+      const datos = snapshot.val();
+      ramos = datos ? Object.keys(datos).map(key => ({ id: key, ...datos[key] })) : [];
+      renderizar();
+    });
+  }
+});
+
+inputBuscar.addEventListener('input', () => {
+  terminoBusqueda = inputBuscar.value;
+  renderizar();
+});
 
 function renderizar() {
-  const ordenados = ramos
-    .map((r, i) => ({ ...r, indexOriginal: i }))
-    .sort((a, b) => ordenDias.indexOf(a.dia) - ordenDias.indexOf(b.dia));
+  let filtrados = ramos;
+
+  if (terminoBusqueda.trim() !== '') {
+    const termino = terminoBusqueda.toLowerCase();
+    filtrados = ramos.filter(r =>
+      r.ramo.toLowerCase().includes(termino) ||
+      r.dia.toLowerCase().includes(termino) ||
+      r.sala.toLowerCase().includes(termino) ||
+      r.hora.toLowerCase().includes(termino)
+    );
+  }
+
+  const ordenados = [...filtrados].sort((a, b) => ordenDias.indexOf(a.dia) - ordenDias.indexOf(b.dia));
 
   cuerpo.innerHTML = '';
+  sinResultados.style.display = ordenados.length === 0 ? 'block' : 'none';
 
   ordenados.forEach((r) => {
-    if (editandoIndex === r.indexOriginal) {
+    if (editandoIndex === r.id) {
       cuerpo.innerHTML += `
         <tr>
           <td>
@@ -45,7 +61,7 @@ function renderizar() {
           <td><input type="text" id="edit-ramo" value="${r.ramo}" onfocus="this.select()"></td>
           <td><input type="text" id="edit-sala" value="${r.sala}" onfocus="this.select()"></td>
           <td>
-            <button onclick="guardarEdicion(${r.indexOriginal})">Guardar</button>
+            <button onclick="guardarEdicion('${r.id}')">Guardar</button>
             <button onclick="cancelarEdicion()">Cancelar</button>
           </td>
         </tr>
@@ -58,8 +74,8 @@ function renderizar() {
           <td>${r.ramo}</td>
           <td>${r.sala}</td>
           <td>
-            <button onclick="editarRamo(${r.indexOriginal})">Editar</button>
-            <button onclick="eliminarRamo(${r.indexOriginal})">Eliminar</button>
+            <button onclick="editarRamo('${r.id}')">Editar</button>
+            <button onclick="eliminarRamo('${r.id}')">Eliminar</button>
           </td>
         </tr>
       `;
@@ -67,8 +83,8 @@ function renderizar() {
   });
 }
 
-function editarRamo(index) {
-  editandoIndex = index;
+function editarRamo(id) {
+  editandoIndex = id;
   renderizar();
 }
 
@@ -77,7 +93,7 @@ function cancelarEdicion() {
   renderizar();
 }
 
-function guardarEdicion(index) {
+function guardarEdicion(id) {
   const nuevoDia = document.getElementById('edit-dia').value;
   const nuevaHora = document.getElementById('edit-hora').value;
   const nuevoRamo = document.getElementById('edit-ramo').value;
@@ -88,16 +104,12 @@ function guardarEdicion(index) {
     return;
   }
 
-  ramos[index] = { dia: nuevoDia, hora: nuevaHora, ramo: nuevoRamo, sala: nuevaSala };
+  rutaUsuario.child(id).set({ dia: nuevoDia, hora: nuevaHora, ramo: nuevoRamo, sala: nuevaSala });
   editandoIndex = null;
-  guardarRamos();
-  renderizar();
 }
 
-function eliminarRamo(index) {
-  ramos.splice(index, 1);
-  guardarRamos();
-  renderizar();
+function eliminarRamo(id) {
+  rutaUsuario.child(id).remove();
 }
 
 btnAgregar.addEventListener('click', () => {
@@ -105,17 +117,13 @@ btnAgregar.addEventListener('click', () => {
     alert('Por favor completa la hora y el nombre del ramo.');
     return;
   }
-  ramos.push({
+  rutaUsuario.push({
     dia: inputDia.value,
     hora: inputHora.value,
     ramo: inputRamo.value,
     sala: inputSala.value
   });
-  guardarRamos();
-  renderizar();
   inputHora.value = '';
   inputRamo.value = '';
   inputSala.value = '';
 });
-
-renderizar();
