@@ -5,6 +5,9 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Mi Horario</title>
   <link rel="stylesheet" href="css/estilos.css">
+  <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-auth-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-database-compat.js"></script>
 </head>
 <body>
   <header class="top-header">
@@ -17,10 +20,15 @@
       <li><a href="index.html">🏠 Inicio</a></li>
       <li><a href="notas.html">🧮 Notas</a></li>
       <li><a href="calendario.html">🗓️ Calendario</a></li>
+      <li><a href="#" id="btn-logout">🚪 Cerrar sesión</a></li>
     </ul>
   </nav>
 
   <h1>Mi Horario</h1>
+
+  <div style="padding: 0 20px; margin-bottom: 15px;">
+    🔍 <input type="text" id="input-buscar" placeholder="Buscar por ramo, día o sala..." onfocus="this.select()" style="width: 300px; padding: 6px;">
+  </div>
 
   <div style="padding: 0 20px; margin-bottom: 15px;">
     <select id="input-dia">
@@ -50,7 +58,10 @@
     </thead>
     <tbody id="cuerpo-horario"></tbody>
   </table>
+  <p id="sin-resultados" style="padding: 0 20px; display: none;">No se encontraron clases que coincidan con tu búsqueda.</p>
 
+  <script src="js/firebase-config.js"></script>
+  <script src="js/auth-guard.js"></script>
   <script src="js/horario.js"></script>
 </body>
 </html>
