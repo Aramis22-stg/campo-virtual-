@@ -14,10 +14,19 @@ auth.onAuthStateChanged((user) => {
     rutaUsuario.on('value', (snapshot) => {
       const datos = snapshot.val();
       eventos = datos ? Object.keys(datos).map(key => ({ id: key, ...datos[key] })) : [];
+      eventosParaCalendario = eventos;
       renderizar();
+      renderizarVistaMensual();
     });
   }
 });
+
+function diasHastaHoy(fechaStr) {
+  const hoy = new Date();
+  hoy.setHours(0,0,0,0);
+  const fecha = new Date(fechaStr + 'T00:00:00');
+  return Math.round((fecha - hoy) / (1000 * 60 * 60 * 24));
+}
 
 function renderizar() {
   const ordenados = [...eventos].sort((a, b) => new Date(a.fecha) - new Date(b.fecha));
@@ -43,9 +52,11 @@ function renderizar() {
         </tr>
       `;
     } else {
+      const dias = diasHastaHoy(e.fecha);
+      const esProximo = dias >= 0 && dias <= 3;
       cuerpo.innerHTML += `
-        <tr>
-          <td>${e.fecha}</td>
+        <tr class="${esProximo ? 'fila-proxima' : ''}">
+          <td>${e.fecha} ${esProximo ? '<span class="etiqueta-proximo">¡Pronto!</span>' : ''}</td>
           <td>${e.evento}</td>
           <td>${e.tipo}</td>
           <td>
@@ -78,12 +89,12 @@ function guardarEdicion(id) {
     return;
   }
 
-  rutaUsuario.child(id).set({ fecha: nuevaFecha, evento: nuevoEvento, tipo: nuevoTipo });
+  rutaUsuario.child(id).set({ fecha: nuevaFecha, evento: nuevoEvento, tipo: nuevoTipo }).then(mostrarGuardado);
   editandoIndex = null;
 }
 
 function eliminarEvento(id) {
-  rutaUsuario.child(id).remove();
+  rutaUsuario.child(id).remove().then(mostrarGuardado);
 }
 
 btnAgregar.addEventListener('click', () => {
@@ -95,7 +106,7 @@ btnAgregar.addEventListener('click', () => {
     fecha: inputFecha.value,
     evento: inputEvento.value,
     tipo: inputTipo.value
-  });
+  }).then(mostrarGuardado);
   inputFecha.value = '';
   inputEvento.value = '';
 });

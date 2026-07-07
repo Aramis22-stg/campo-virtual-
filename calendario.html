@@ -17,18 +17,27 @@
 
   <nav>
     <ul class="menu">
+      <li><a href="#" id="btn-modo-oscuro"></a></li>
       <li><a href="index.html">🏠 Inicio</a></li>
       <li><a href="horario.html">📅 Horario</a></li>
       <li><a href="notas.html">🧮 Notas</a></li>
+      <li><a href="perfil.html">👤 Perfil</a></li>
       <li><a href="#" id="btn-logout">🚪 Cerrar sesión</a></li>
     </ul>
   </nav>
 
   <h1>Calendario Académico</h1>
 
+  <div id="vista-mensual" class="vista-mensual-contenedor"></div>
+
+  <hr style="margin: 30px 20px;">
+
+  <h2>Lista de eventos</h2>
+
   <div style="padding: 0 20px; margin-bottom: 15px;">
     <input type="date" id="input-fecha">
     <input type="text" id="input-evento" placeholder="Nombre del evento" onfocus="this.select()">
+    <button type="button" id="btn-mic-evento" class="boton-mic" title="Dictar evento">🎤</button>
     <select id="input-tipo">
       <option value="prueba">Prueba</option>
       <option value="entrega">Entrega</option>
@@ -51,6 +60,11 @@
 
   <script src="js/firebase-config.js"></script>
   <script src="js/auth-guard.js"></script>
+  <script src="js/utilidades.js"></script>
+  <script src="js/vista-calendario.js"></script>
   <script src="js/calendario.js"></script>
+  <script>
+    activarDictado('btn-mic-evento', 'input-evento');
+  </script>
 </body>
 </html>

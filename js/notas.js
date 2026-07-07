@@ -1,5 +1,6 @@
 let notas = [];
 let rutaUsuario = null;
+let graficoNotas = null;
 
 const contenedor = document.getElementById('contenedor-asignaturas');
 const btnAgregar = document.getElementById('btn-agregar');
@@ -36,17 +37,14 @@ function renderizar() {
   const grupos = agruparPorAsignatura();
   const nombresAsignaturas = Object.keys(grupos).sort();
 
-  // Sugerencias del datalist
   listaAsignaturas.innerHTML = nombresAsignaturas.map(a => `<option value="${a}">`).join('');
 
-  // Selector de "nota necesaria"
   const seleccionActual = selectAsignaturaNecesaria.value;
   selectAsignaturaNecesaria.innerHTML = nombresAsignaturas.map(a => `<option value="${a}">${a}</option>`).join('');
   if (nombresAsignaturas.includes(seleccionActual)) {
     selectAsignaturaNecesaria.value = seleccionActual;
   }
 
-  // Tarjetas por asignatura
   contenedor.innerHTML = '';
   if (nombresAsignaturas.length === 0) {
     contenedor.innerHTML = '<p style="padding: 0 20px;">Aún no has agregado notas. Escribe una asignatura arriba para comenzar.</p>';
@@ -72,7 +70,7 @@ function renderizar() {
     });
 
     contenedor.innerHTML += `
-      <div style="border: 1px solid #ccc; border-radius: 6px; padding: 15px; margin: 0 20px 20px 20px; background: white;">
+      <div class="tarjeta-asignatura">
         <h2 style="margin-top: 0;">${asig}</h2>
         ${filas}
         <p><strong>Suma de porcentajes:</strong> ${sumaPorcentajes.toFixed(0)}% &nbsp; | &nbsp; <strong>Promedio:</strong> ${promedio}</p>
@@ -80,15 +78,16 @@ function renderizar() {
     `;
   });
 
+  actualizarGrafico(grupos, nombresAsignaturas);
   calcularNotaNecesaria();
 }
 
 function actualizarNota(id, campo, valor) {
-  rutaUsuario.child(id).update({ [campo]: valor });
+  rutaUsuario.child(id).update({ [campo]: valor }).then(mostrarGuardado);
 }
 
 function eliminarNota(id) {
-  rutaUsuario.child(id).remove();
+  rutaUsuario.child(id).remove().then(mostrarGuardado);
 }
 
 btnAgregar.addEventListener('click', () => {
@@ -101,7 +100,7 @@ btnAgregar.addEventListener('click', () => {
     return;
   }
 
-  rutaUsuario.push({ asignatura, valor: parseFloat(valor), porcentaje: parseFloat(porcentaje) });
+  rutaUsuario.push({ asignatura, valor: parseFloat(valor), porcentaje: parseFloat(porcentaje) }).then(mostrarGuardado);
   inputValor.value = '';
   inputPorcentaje.value = '';
 });
@@ -147,3 +146,44 @@ function calcularNotaNecesaria() {
 selectAsignaturaNecesaria.addEventListener('change', calcularNotaNecesaria);
 inputNotaMinima.addEventListener('input', calcularNotaNecesaria);
 inputPorcentajeFaltante.addEventListener('input', calcularNotaNecesaria);
+
+function actualizarGrafico(grupos, nombresAsignaturas) {
+  const canvas = document.getElementById('grafico-notas');
+  if (!canvas) return;
+
+  const promedios = nombresAsignaturas.map(asig => {
+    const notasAsig = grupos[asig];
+    const sumaPorcentajes = notasAsig.reduce((acc, n) => acc + parseFloat(n.porcentaje || 0), 0);
+    const sumaPonderada = notasAsig.reduce((acc, n) => acc + (parseFloat(n.valor) * parseFloat(n.porcentaje || 0)), 0);
+    return sumaPorcentajes > 0 ? +(sumaPonderada / sumaPorcentajes).toFixed(2) : 0;
+  });
+
+  if (graficoNotas) {
+    graficoNotas.data.labels = nombresAsignaturas;
+    graficoNotas.data.datasets[0].data = promedios;
+    graficoNotas.update();
+    return;
+  }
+
+  graficoNotas = new Chart(canvas, {
+    type: 'bar',
+    data: {
+      labels: nombresAsignaturas,
+      datasets: [{
+        label: 'Promedio por asignatura',
+        data: promedios,
+        backgroundColor: '#00563f',
+        borderRadius: 4
+      }]
+    },
+    options: {
+      responsive: true,
+      scales: {
+        y: { min: 1, max: 7, ticks: { stepSize: 1 } }
+      },
+      plugins: {
+        legend: { display: false }
+      }
+    }
+  });
+}

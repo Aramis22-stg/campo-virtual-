@@ -72,6 +72,172 @@ nav {
   text-decoration: underline;
 }
 
+/* Barra superior de la página de Inicio */
+.barra-inicio {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 20px 20px 0 20px;
+  margin-bottom: 5px;
+  flex-wrap: wrap;
+  gap: 12px;
+}
+
+.barra-botones {
+  display: flex;
+  gap: 10px;
+  align-items: center;
+}
+
+.boton-logout, .boton-secundario {
+  background-color: #003b2f;
+  color: white;
+  text-decoration: none;
+  padding: 8px 16px;
+  border-radius: 4px;
+  font-size: 14px;
+  font-weight: bold;
+  white-space: nowrap;
+}
+
+.boton-secundario {
+  background-color: transparent;
+  border: 1px solid #003b2f;
+  color: #003b2f;
+}
+
+.boton-logout:hover {
+  background-color: #00563f;
+}
+
+.boton-secundario:hover {
+  background-color: #003b2f;
+  color: white;
+}
+
+/* Hero de bienvenida en Inicio */
+.hero-bienvenida {
+  max-width: 600px;
+  margin: 20px auto 40px auto;
+  padding: 50px 40px 40px 40px;
+  background-color: white;
+  border-radius: 14px;
+  box-shadow: 0 6px 20px rgba(0, 59, 47, 0.15);
+  text-align: center;
+  position: relative;
+}
+
+.hero-circulo {
+  width: 90px;
+  height: 90px;
+  background-color: #00563f;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 42px;
+  margin: -85px auto 20px auto;
+  border: 5px solid white;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+}
+
+.hero-bienvenida h2 {
+  font-family: Georgia, 'Times New Roman', serif;
+  font-size: 34px;
+  color: #111;
+  margin: 0 0 8px 0;
+  padding: 0;
+}
+
+.hero-subtitulo {
+  color: #00563f;
+  font-weight: bold;
+  font-size: 15px;
+  margin-bottom: 20px;
+}
+
+.hero-descripcion {
+  color: #555;
+  font-size: 15px;
+  line-height: 1.6;
+  max-width: 460px;
+  margin: 0 auto;
+}
+
+/* Vista "Hoy" en Inicio */
+.vista-hoy {
+  max-width: 600px;
+  margin: 0 auto 30px auto;
+  padding: 20px 25px;
+  background-color: white;
+  border-radius: 10px;
+  box-shadow: 0 2px 8px rgba(0, 59, 47, 0.1);
+}
+
+.vista-hoy-subtitulo {
+  font-weight: bold;
+  color: #00563f;
+  margin: 10px 0 5px 0;
+}
+
+.vista-hoy-lista {
+  margin: 0 0 10px 0;
+  padding-left: 20px;
+}
+
+.vista-hoy-vacio {
+  color: #666;
+}
+
+/* Tarjetas de acceso rápido en Inicio */
+.accesos-rapidos {
+  max-width: 900px;
+  margin: 10px auto 50px auto;
+  padding: 0 20px;
+  display: flex;
+  gap: 20px;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+.tarjeta-acceso {
+  background-color: white;
+  border-radius: 10px;
+  box-shadow: 0 2px 8px rgba(0, 59, 47, 0.1);
+  padding: 25px 20px;
+  text-align: center;
+  text-decoration: none;
+  color: inherit;
+  flex: 1 1 220px;
+  max-width: 260px;
+  transition: transform 0.2s, box-shadow 0.2s;
+  border: 1px solid #e5e5e5;
+}
+
+.tarjeta-acceso:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 6px 16px rgba(0, 59, 47, 0.2);
+  border-color: #00563f;
+}
+
+.tarjeta-icono {
+  font-size: 36px;
+  margin-bottom: 10px;
+}
+
+.tarjeta-acceso h3 {
+  color: #003b2f;
+  font-size: 17px;
+  margin: 0 0 8px 0;
+}
+
+.tarjeta-acceso p {
+  color: #666;
+  font-size: 13px;
+  margin: 0;
+  line-height: 1.4;
+}
+
 /* Tablas */
 table {
   border-collapse: collapse;
@@ -100,6 +266,16 @@ tr:hover {
   background-color: #e9f5f0;
 }
 
+/* Etiqueta de color por ramo en el Horario */
+.etiqueta-ramo {
+  display: inline-block;
+  color: white;
+  padding: 4px 10px;
+  border-radius: 12px;
+  font-size: 13px;
+  font-weight: bold;
+}
+
 /* Botones */
 button {
   background-color: #003b2f;
@@ -111,12 +287,19 @@ button {
   font-size: 14px;
   margin: 4px;
 }
+
 button:hover {
   background-color: #00563f;
 }
 
-/* Inputs (para la calculadora de notas) */
-input[type="number"] {
+.boton-mic {
+  background-color: #00563f;
+  padding: 6px 10px;
+  font-size: 15px;
+}
+
+/* Inputs */
+input[type="number"], input[type="text"], input[type="date"], input[type="email"], input[type="password"], select {
   padding: 6px 10px;
   border: 1px solid #ccc;
   border-radius: 4px;
@@ -124,7 +307,7 @@ input[type="number"] {
   margin-right: 8px;
 }
 
-/* Contenedor general de contenido */
+/* Contenedor general de Notas */
 #lista-notas {
   padding: 0 20px;
 }
@@ -132,6 +315,63 @@ input[type="number"] {
 #lista-notas > div {
   margin-bottom: 8px;
 }
+
+.tarjeta-asignatura {
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  padding: 15px;
+  margin: 0 20px 20px 20px;
+  background-color: white;
+}
+
+/* Gráfico de notas */
+.contenedor-grafico {
+  max-width: 600px;
+  margin: 20px 20px 40px 20px;
+  background-color: white;
+  border-radius: 10px;
+  padding: 20px;
+  box-shadow: 0 2px 8px rgba(0, 59, 47, 0.1);
+}
+
+/* Aviso de guardado automático */
+.aviso-guardado {
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+  background-color: #00563f;
+  color: white;
+  padding: 10px 18px;
+  border-radius: 20px;
+  font-size: 14px;
+  font-weight: bold;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.2);
+  opacity: 0;
+  transform: translateY(10px);
+  transition: opacity 0.3s, transform 0.3s;
+  pointer-events: none;
+  z-index: 999;
+}
+
+.aviso-guardado.mostrar {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* Saludo simple */
+.saludo-simple {
+  max-width: 900px;
+  margin: 5px auto 30px auto;
+  padding: 0 20px;
+}
+
+.saludo-simple span {
+  font-family: Georgia, 'Times New Roman', serif;
+  font-size: 22px;
+  color: #003b2f;
+  font-weight: normal;
+}
+
 /* Diseño responsive para celulares */
 @media (max-width: 600px) {
   .menu {
@@ -160,4 +400,261 @@ input[type="number"] {
   h1 {
     font-size: 22px;
   }
+
+  .barra-inicio {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 12px;
+  }
+
+  .hero-bienvenida {
+    padding: 45px 20px 30px 20px;
+  }
+
+  .hero-bienvenida h2 {
+    font-size: 26px;
+  }
+
+  .accesos-rapidos {
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .tarjeta-acceso {
+    max-width: 100%;
+    width: 100%;
+  }
+}
+
+/* Modo oscuro */
+body.modo-oscuro {
+  background-color: #14181a;
+  color: #e0e0e0;
+}
+
+body.modo-oscuro .hero-bienvenida,
+body.modo-oscuro .tarjeta-acceso,
+body.modo-oscuro table,
+body.modo-oscuro .contenedor-grafico,
+body.modo-oscuro .vista-hoy,
+body.modo-oscuro .tarjeta-asignatura {
+  background-color: #1f2427;
+  color: #e0e0e0;
+  border-color: #333 !important;
+}
+
+body.modo-oscuro .hero-bienvenida h2,
+body.modo-oscuro .tarjeta-acceso h3,
+body.modo-oscuro #contenedor-asignaturas h2,
+body.modo-oscuro h1,
+body.modo-oscuro h2 {
+  color: #7fd8b0;
+}
+
+body.modo-oscuro td {
+  border-color: #333;
+  color: #e0e0e0;
+}
+
+body.modo-oscuro tr:nth-child(even) {
+  background-color: #262b2e;
+}
+
+body.modo-oscuro tr:hover {
+  background-color: #2d3a34;
+}
+
+body.modo-oscuro input,
+body.modo-oscuro select {
+  background-color: #262b2e;
+  color: #e0e0e0;
+  border-color: #444;
+}
+
+body.modo-oscuro input::placeholder {
+  color: #888;
+}
+
+body.modo-oscuro p,
+body.modo-oscuro label,
+body.modo-oscuro .hero-descripcion,
+body.modo-oscuro .vista-hoy-vacio {
+  color: #cfcfcf;
+}
+
+body.modo-oscuro #contenedor-asignaturas p strong {
+  color: #7fd8b0;
+}
+
+body.modo-oscuro .saludo-simple span,
+body.modo-oscuro .boton-secundario {
+  color: #7fd8b0;
+  border-color: #7fd8b0;
+}
+
+body.modo-oscuro #resultado-necesario {
+  color: #e0e0e0;
+}
+.contador-regresivo {
+  max-width: 600px;
+  margin: 0 auto 20px auto;
+  padding: 14px 20px;
+  background-color: #003b2f;
+  color: white;
+  border-radius: 8px;
+  text-align: center;
+  font-weight: bold;
+  font-size: 15px;
+}
+
+body.modo-oscuro .contador-regresivo {
+  background-color: #00563f;
+}
+.tarjeta-asistencia {
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  padding: 15px;
+  margin: 0 20px 20px 20px;
+  background-color: white;
+}
+
+.contador-examen {
+  max-width: 600px;
+  margin: 0 auto 25px auto;
+  padding: 14px 20px;
+  background-color: #fff3e0;
+  border-left: 5px solid #d35400;
+  border-radius: 6px;
+  font-weight: bold;
+  color: #8a4b00;
+  text-align: center;
+}
+
+body.modo-oscuro .tarjeta-asistencia {
+  background-color: #1f2427;
+  border-color: #333;
+  color: #e0e0e0;
+}
+
+body.modo-oscuro .contador-examen {
+  background-color: #3a2a1a;
+  color: #ffb877;
+  border-color: #d35400;
+}
+/* Vista mensual del calendario */
+.vista-mensual-contenedor {
+  max-width: 700px;
+  margin: 0 auto 30px auto;
+  padding: 20px;
+  background-color: white;
+  border-radius: 10px;
+  box-shadow: 0 2px 8px rgba(0, 59, 47, 0.1);
+}
+
+.calendario-cabecera {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 15px;
+}
+
+.calendario-cabecera button {
+  padding: 6px 12px;
+}
+
+.calendario-grid {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  gap: 4px;
+}
+
+.calendario-dia-nombre {
+  text-align: center;
+  font-weight: bold;
+  color: #00563f;
+  font-size: 13px;
+  padding: 4px 0;
+}
+
+.calendario-celda {
+  min-height: 65px;
+  border: 1px solid #eee;
+  border-radius: 4px;
+  padding: 4px;
+  font-size: 11px;
+  overflow: hidden;
+}
+
+.calendario-celda.vacia {
+  border: none;
+}
+
+.calendario-celda.hoy {
+  background-color: #e9f5f0;
+  border-color: #00563f;
+}
+
+.calendario-numero {
+  font-weight: bold;
+  font-size: 13px;
+  margin-bottom: 3px;
+}
+
+.calendario-punto {
+  background-color: #00563f;
+  color: white;
+  border-radius: 3px;
+  padding: 1px 4px;
+  margin-bottom: 2px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.calendario-punto.tipo-prueba { background-color: #c0392b; }
+.calendario-punto.tipo-entrega { background-color: #2980b9; }
+.calendario-punto.tipo-vacaciones { background-color: #16a085; }
+
+/* Recordatorio de fechas próximas en la tabla */
+.fila-proxima {
+  background-color: #fdecea !important;
+}
+
+.etiqueta-proximo {
+  background-color: #c0392b;
+  color: white;
+  font-size: 10px;
+  padding: 2px 6px;
+  border-radius: 8px;
+  margin-left: 6px;
+  font-weight: bold;
+}
+
+body.modo-oscuro .vista-mensual-contenedor {
+  background-color: #1f2427;
+}
+
+body.modo-oscuro .calendario-celda {
+  border-color: #333;
+}
+
+body.modo-oscuro .calendario-celda.hoy {
+  background-color: #2d3a34;
+}
+
+body.modo-oscuro .fila-proxima {
+  background-color: #3a1f1f !important;
+}
+.tarjeta-perfil {
+  max-width: 500px;
+  margin: 0 auto 25px auto;
+  padding: 20px 25px;
+  background-color: white;
+  border-radius: 10px;
+  box-shadow: 0 2px 8px rgba(0, 59, 47, 0.1);
+}
+
+body.modo-oscuro .tarjeta-perfil {
+  background-color: #1f2427;
+  color: #e0e0e0;
 }

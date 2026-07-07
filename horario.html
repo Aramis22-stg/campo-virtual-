@@ -17,9 +17,11 @@
 
   <nav>
     <ul class="menu">
+      <li><a href="#" id="btn-modo-oscuro"></a></li>
       <li><a href="index.html">🏠 Inicio</a></li>
       <li><a href="notas.html">🧮 Notas</a></li>
       <li><a href="calendario.html">🗓️ Calendario</a></li>
+      <li><a href="perfil.html">👤 Perfil</a></li>
       <li><a href="#" id="btn-logout">🚪 Cerrar sesión</a></li>
     </ul>
   </nav>
@@ -42,7 +44,9 @@
     </select>
     <input type="text" id="input-hora" placeholder="Ej: 18:40 - 20:00" onfocus="this.select()">
     <input type="text" id="input-ramo" placeholder="Nombre del ramo" onfocus="this.select()">
+    <button type="button" id="btn-mic-ramo" class="boton-mic" title="Dictar nombre del ramo">🎤</button>
     <input type="text" id="input-sala" placeholder="Sala" onfocus="this.select()">
+    <button type="button" id="btn-mic-sala" class="boton-mic" title="Dictar sala">🎤</button>
     <button id="btn-agregar-ramo">+ Agregar clase</button>
   </div>
 
@@ -60,8 +64,29 @@
   </table>
   <p id="sin-resultados" style="padding: 0 20px; display: none;">No se encontraron clases que coincidan con tu búsqueda.</p>
 
+  <hr style="margin: 30px 20px;">
+
+  <h1>📊 Calculadora de Asistencia</h1>
+  <p style="padding: 0 20px; color: #666;">Ingresa el total de clases del semestre, tus faltas y el porcentaje mínimo exigido, y calcula cuántas clases más puedes faltar.</p>
+
+  <div style="padding: 0 20px; margin-bottom: 20px;">
+    <input type="text" id="input-asig-asistencia" placeholder="Asignatura" onfocus="this.select()" style="width: 160px;">
+    <input type="number" id="input-total-clases" placeholder="Total clases semestre" onfocus="this.select()" style="width: 150px;">
+    <input type="number" id="input-faltas" placeholder="Faltas hasta ahora" onfocus="this.select()" style="width: 140px;">
+    <input type="number" id="input-minimo-asistencia" placeholder="% mínimo (ej: 75)" onfocus="this.select()" style="width: 140px;">
+    <button id="btn-agregar-asistencia">+ Agregar asignatura</button>
+  </div>
+
+  <div id="cuerpo-asistencia"></div>
+
   <script src="js/firebase-config.js"></script>
   <script src="js/auth-guard.js"></script>
+  <script src="js/utilidades.js"></script>
   <script src="js/horario.js"></script>
+  <script src="js/asistencia.js"></script>
+  <script>
+    activarDictado('btn-mic-ramo', 'input-ramo');
+    activarDictado('btn-mic-sala', 'input-sala');
+  </script>
 </body>
 </html>

@@ -1,4 +1,5 @@
 const ordenDias = ["Lunes", "Martes", "Miércoles", "Jueves", "Viernes", "Sábado", "Domingo"];
+const paletaColores = ['#00563f', '#c0392b', '#2980b9', '#8e44ad', '#d35400', '#16a085', '#7f8c8d', '#2c3e50'];
 
 let ramos = [];
 let editandoIndex = null;
@@ -13,6 +14,15 @@ const inputSala = document.getElementById('input-sala');
 const btnAgregar = document.getElementById('btn-agregar-ramo');
 const inputBuscar = document.getElementById('input-buscar');
 const sinResultados = document.getElementById('sin-resultados');
+
+function colorParaRamo(nombreRamo) {
+  let hash = 0;
+  for (let i = 0; i < nombreRamo.length; i++) {
+    hash = nombreRamo.charCodeAt(i) + ((hash << 5) - hash);
+  }
+  const indice = Math.abs(hash) % paletaColores.length;
+  return paletaColores[indice];
+}
 
 auth.onAuthStateChanged((user) => {
   if (user) {
@@ -67,11 +77,12 @@ function renderizar() {
         </tr>
       `;
     } else {
+      const color = colorParaRamo(r.ramo);
       cuerpo.innerHTML += `
         <tr>
           <td>${r.dia}</td>
           <td>${r.hora}</td>
-          <td>${r.ramo}</td>
+          <td><span class="etiqueta-ramo" style="background-color: ${color};">${r.ramo}</span></td>
           <td>${r.sala}</td>
           <td>
             <button onclick="editarRamo('${r.id}')">Editar</button>
@@ -104,12 +115,13 @@ function guardarEdicion(id) {
     return;
   }
 
-  rutaUsuario.child(id).set({ dia: nuevoDia, hora: nuevaHora, ramo: nuevoRamo, sala: nuevaSala });
+  rutaUsuario.child(id).set({ dia: nuevoDia, hora: nuevaHora, ramo: nuevoRamo, sala: nuevaSala })
+    .then(mostrarGuardado);
   editandoIndex = null;
 }
 
 function eliminarRamo(id) {
-  rutaUsuario.child(id).remove();
+  rutaUsuario.child(id).remove().then(mostrarGuardado);
 }
 
 btnAgregar.addEventListener('click', () => {
@@ -122,7 +134,7 @@ btnAgregar.addEventListener('click', () => {
     hora: inputHora.value,
     ramo: inputRamo.value,
     sala: inputSala.value
-  });
+  }).then(mostrarGuardado);
   inputHora.value = '';
   inputRamo.value = '';
   inputSala.value = '';

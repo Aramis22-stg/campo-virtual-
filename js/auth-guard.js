@@ -17,3 +17,22 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   }
 });
+
+// --- Cierre automático por inactividad (9 horas) ---
+const TIEMPO_MAXIMO_INACTIVIDAD = 9 * 60 * 60 * 1000; // 9 horas en milisegundos
+let temporizadorInactividad;
+
+function reiniciarTemporizador() {
+  clearTimeout(temporizadorInactividad);
+  temporizadorInactividad = setTimeout(() => {
+    auth.signOut().then(() => {
+      window.location.href = 'login.html';
+    });
+  }, TIEMPO_MAXIMO_INACTIVIDAD);
+}
+
+['mousemove', 'keydown', 'click', 'scroll', 'touchstart'].forEach(evento => {
+  document.addEventListener(evento, reiniciarTemporizador);
+});
+
+reiniciarTemporizador();

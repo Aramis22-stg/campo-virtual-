@@ -28,3 +28,23 @@ btnLogin.addEventListener('click', () => {
       mensaje.textContent = 'Error: ' + error.message;
     });
 });
+document.getElementById('link-olvide').addEventListener('click', (e) => {
+  e.preventDefault();
+  const correo = document.getElementById('input-correo').value;
+
+  if (!correo) {
+    mensaje.style.color = 'red';
+    mensaje.textContent = 'Escribe tu correo arriba y luego click en "¿Olvidaste tu contraseña?".';
+    return;
+  }
+
+  auth.sendPasswordResetEmail(correo)
+    .then(() => {
+      mensaje.style.color = 'green';
+      mensaje.textContent = 'Te enviamos un correo para restablecer tu contraseña. Revisa tu bandeja de entrada (y spam).';
+    })
+    .catch((error) => {
+      mensaje.style.color = 'red';
+      mensaje.textContent = 'Error: ' + error.message;
+    });
+});

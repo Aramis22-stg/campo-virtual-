@@ -14,17 +14,89 @@
     <div class="logo">Santo Tomás</div>
     <div class="subtitulo">Portal del Estudiante</div>
   </header>
-  <h1>Mi Instituto</h1>
-  <nav>
-    <ul class="menu">
-      <li><a href="horario.html">📅 Mi Horario</a></li>
-      <li><a href="notas.html">🧮 Calculadora de Notas</a></li>
-      <li><a href="calendario.html">🗓️ Calendario Académico</a></li>
-      <li><a href="#" id="btn-logout">🚪 Cerrar sesión</a></li>
-    </ul>
-  </nav>
+
+  <div class="barra-inicio">
+    <h1 style="padding: 0; margin: 0;">Mi Instituto</h1>
+    <div class="barra-botones">
+      <a href="#" id="btn-modo-oscuro" class="boton-secundario"></a>
+      <a href="perfil.html" class="boton-secundario">👤 Perfil</a>
+      <a href="#" id="btn-logout" class="boton-logout">🚪 Cerrar sesión</a>
+    </div>
+  </div>
+
+  <div class="hero-bienvenida">
+    <div class="hero-circulo">🎓</div>
+    <h2>¡Hola!</h2>
+    <p class="hero-subtitulo" id="texto-usuario"></p>
+    <p class="hero-descripcion">Este es tu Portal del Estudiante: aquí puedes ver y organizar tu horario de clases, calcular tu promedio y la nota que necesitas para aprobar, y llevar un calendario con tus fechas académicas importantes. Todo en un solo lugar, fácil de editar cuando quieras.</p>
+  </div>
+
+  <div id="vista-hoy" class="vista-hoy"></div>
+
+  <div id="contador-examen" class="contador-examen"></div>
+
+  <div class="accesos-rapidos">
+    <a href="horario.html" class="tarjeta-acceso">
+      <div class="tarjeta-icono">📅</div>
+      <h3>Mi Horario</h3>
+      <p>Consulta y organiza tus clases de la semana.</p>
+    </a>
+    <a href="notas.html" class="tarjeta-acceso">
+      <div class="tarjeta-icono">🧮</div>
+      <h3>Calculadora de Notas</h3>
+      <p>Calcula tu promedio y la nota que necesitas para aprobar.</p>
+    </a>
+    <a href="calendario.html" class="tarjeta-acceso">
+      <div class="tarjeta-icono">🗓️</div>
+      <h3>Calendario Académico</h3>
+      <p>Revisa tus próximas pruebas, entregas y fechas importantes.</p>
+    </a>
+  </div>
 
   <script src="js/firebase-config.js"></script>
   <script src="js/auth-guard.js"></script>
+  <script src="js/utilidades.js"></script>
+  <script src="js/vista-hoy.js"></script>
+  <script>
+    auth.onAuthStateChanged((user) => {
+      if (user) {
+        document.getElementById('texto-usuario').textContent = 'Sesión iniciada como ' + user.email;
+      }
+    });
+
+    auth.onAuthStateChanged((user) => {
+      if (!user) return;
+      db.ref('usuarios/' + user.uid + '/eventos').once('value').then((snapshot) => {
+        const datos = snapshot.val();
+        const eventos = datos ? Object.values(datos) : [];
+        const hoy = new Date();
+        hoy.setHours(0,0,0,0);
+
+        const finales = eventos
+          .filter(e => e.evento.toLowerCase().includes('final'))
+          .map(e => ({ ...e, fechaObj: new Date(e.fecha + 'T00:00:00') }))
+          .filter(e => e.fechaObj >= hoy)
+          .sort((a, b) => a.fechaObj - b.fechaObj);
+
+        const contenedor = document.getElementById('contador-examen');
+        if (finales.length === 0) {
+          contenedor.style.display = 'none';
+          return;
+        }
+
+        const proximo = finales[0];
+        const diasFaltantes = Math.round((proximo.fechaObj - hoy) / (1000 * 60 * 60 * 24));
+        let texto = '';
+        if (diasFaltantes === 0) {
+          texto = `📢 ¡Hoy es "${proximo.evento}"!`;
+        } else if (diasFaltantes === 1) {
+          texto = `⏳ Falta 1 día para "${proximo.evento}"`;
+        } else {
+          texto = `⏳ Faltan ${diasFaltantes} días para "${proximo.evento}"`;
+        }
+        contenedor.textContent = texto;
+      });
+    });
+  </script>
 </body>
 </html>
