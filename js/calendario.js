@@ -1,24 +1,6 @@
-const eventosPorDefecto = [
-  { fecha: "2026-06-24", evento: "Prueba de Nivelación Matemática", tipo: "prueba" },
-  { fecha: "2026-06-24", evento: "Pruebas recuperativas", tipo: "prueba" },
-  { fecha: "2026-06-25", evento: "Disertación Taller de Habilidades TIC", tipo: "prueba" },
-  { fecha: "2026-06-25", evento: "Pruebas recuperativas", tipo: "prueba" },
-  { fecha: "2026-06-26", evento: "Pruebas recuperativas", tipo: "prueba" },
-  { fecha: "2026-06-27", evento: "Pruebas recuperativas", tipo: "prueba" },
-  { fecha: "2026-06-29", evento: "Pruebas recuperativas", tipo: "prueba" },
-  { fecha: "2026-07-01", evento: "Pruebas recuperativas", tipo: "prueba" },
-  { fecha: "2026-07-02", evento: "Pruebas recuperativas", tipo: "prueba" },
-  { fecha: "2026-07-03", evento: "Pruebas recuperativas", tipo: "prueba" },
-  { fecha: "2026-07-06", evento: "Examen Final", tipo: "prueba" },
-  { fecha: "2026-07-07", evento: "Examen Final", tipo: "prueba" },
-  { fecha: "2026-07-08", evento: "Examen Final", tipo: "prueba" },
-  { fecha: "2026-07-09", evento: "Examen Final", tipo: "prueba" },
-  { fecha: "2026-07-10", evento: "Examen Final - Cierre del semestre", tipo: "prueba" },
-  { fecha: "2026-08-10", evento: "Regreso a clases", tipo: "vacaciones" }
-];
-
-let eventos = JSON.parse(localStorage.getItem('eventos')) || eventosPorDefecto;
+let eventos = [];
 let editandoIndex = null;
+let rutaUsuario = null;
 
 const cuerpo = document.getElementById('cuerpo-eventos');
 const inputFecha = document.getElementById('input-fecha');
@@ -26,20 +8,23 @@ const inputEvento = document.getElementById('input-evento');
 const inputTipo = document.getElementById('input-tipo');
 const btnAgregar = document.getElementById('btn-agregar-evento');
 
-function guardarEventos() {
-  localStorage.setItem('eventos', JSON.stringify(eventos));
-}
+auth.onAuthStateChanged((user) => {
+  if (user) {
+    rutaUsuario = db.ref('usuarios/' + user.uid + '/eventos');
+    rutaUsuario.on('value', (snapshot) => {
+      const datos = snapshot.val();
+      eventos = datos ? Object.keys(datos).map(key => ({ id: key, ...datos[key] })) : [];
+      renderizar();
+    });
+  }
+});
 
 function renderizar() {
-  const ordenados = eventos
-    .map((e, i) => ({ ...e, indexOriginal: i }))
-    .sort((a, b) => new Date(a.fecha) - new Date(b.fecha));
-
+  const ordenados = [...eventos].sort((a, b) => new Date(a.fecha) - new Date(b.fecha));
   cuerpo.innerHTML = '';
 
   ordenados.forEach((e) => {
-    if (editandoIndex === e.indexOriginal) {
-      // Fila en modo edición
+    if (editandoIndex === e.id) {
       cuerpo.innerHTML += `
         <tr>
           <td><input type="date" id="edit-fecha" value="${e.fecha}"></td>
@@ -52,7 +37,7 @@ function renderizar() {
             </select>
           </td>
           <td>
-            <button onclick="guardarEdicion(${e.indexOriginal})">Guardar</button>
+            <button onclick="guardarEdicion('${e.id}')">Guardar</button>
             <button onclick="cancelarEdicion()">Cancelar</button>
           </td>
         </tr>
@@ -64,8 +49,8 @@ function renderizar() {
           <td>${e.evento}</td>
           <td>${e.tipo}</td>
           <td>
-            <button onclick="editarEvento(${e.indexOriginal})">Editar</button>
-            <button onclick="eliminarEvento(${e.indexOriginal})">Eliminar</button>
+            <button onclick="editarEvento('${e.id}')">Editar</button>
+            <button onclick="eliminarEvento('${e.id}')">Eliminar</button>
           </td>
         </tr>
       `;
@@ -73,8 +58,8 @@ function renderizar() {
   });
 }
 
-function editarEvento(index) {
-  editandoIndex = index;
+function editarEvento(id) {
+  editandoIndex = id;
   renderizar();
 }
 
@@ -83,7 +68,7 @@ function cancelarEdicion() {
   renderizar();
 }
 
-function guardarEdicion(index) {
+function guardarEdicion(id) {
   const nuevaFecha = document.getElementById('edit-fecha').value;
   const nuevoEvento = document.getElementById('edit-evento').value;
   const nuevoTipo = document.getElementById('edit-tipo').value;
@@ -93,16 +78,12 @@ function guardarEdicion(index) {
     return;
   }
 
-  eventos[index] = { fecha: nuevaFecha, evento: nuevoEvento, tipo: nuevoTipo };
+  rutaUsuario.child(id).set({ fecha: nuevaFecha, evento: nuevoEvento, tipo: nuevoTipo });
   editandoIndex = null;
-  guardarEventos();
-  renderizar();
 }
 
-function eliminarEvento(index) {
-  eventos.splice(index, 1);
-  guardarEventos();
-  renderizar();
+function eliminarEvento(id) {
+  rutaUsuario.child(id).remove();
 }
 
 btnAgregar.addEventListener('click', () => {
@@ -110,15 +91,11 @@ btnAgregar.addEventListener('click', () => {
     alert('Por favor completa la fecha y el nombre del evento.');
     return;
   }
-  eventos.push({
+  rutaUsuario.push({
     fecha: inputFecha.value,
     evento: inputEvento.value,
     tipo: inputTipo.value
   });
-  guardarEventos();
-  renderizar();
   inputFecha.value = '';
   inputEvento.value = '';
 });
-
-renderizar();
