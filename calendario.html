@@ -5,6 +5,9 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Calendario Académico</title>
   <link rel="stylesheet" href="css/estilos.css">
+  <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-auth-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-database-compat.js"></script>
 </head>
 <body>
   <header class="top-header">
@@ -17,6 +20,7 @@
       <li><a href="index.html">🏠 Inicio</a></li>
       <li><a href="horario.html">📅 Horario</a></li>
       <li><a href="notas.html">🧮 Notas</a></li>
+      <li><a href="#" id="btn-logout">🚪 Cerrar sesión</a></li>
     </ul>
   </nav>
 
@@ -45,6 +49,8 @@
     <tbody id="cuerpo-eventos"></tbody>
   </table>
 
+  <script src="js/firebase-config.js"></script>
+  <script src="js/auth-guard.js"></script>
   <script src="js/calendario.js"></script>
 </body>
 </html>
